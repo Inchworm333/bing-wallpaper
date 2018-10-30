@@ -12,7 +12,7 @@ Keep your wallpaper up to date with Bing's image of the day, every day.
  - Grab the code
 
 ```bash
-git clone https://github.com/kompiuter/bing-wallpaper.git
+git clone https://github.com/Inchworm333/bing-wallpaper.git
 ````
 
  - Open .sln file in Visual Studio
@@ -41,6 +41,8 @@ A tray icon is visible while the application is running (thanks @MichaelMK) whic
 * Force wallpaper update
 * Save wallpaper as image
 * Disable launch on startup
+* Change default wallpaper resolution
+* Change default bing country
 
 # Uninstall
 

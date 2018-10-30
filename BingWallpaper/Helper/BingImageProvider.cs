@@ -1,25 +1,28 @@
 ﻿using System;
 using System.Drawing;
+using System.Net;
 using System.Net.Http;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Threading.Tasks;
+using static BingWallpaper.Settings;
 
 namespace BingWallpaper
 {
     public class BingImageProvider
     {
-        public async Task<BingImage> GetImage()
+        public async Task<BingImage> GetImage(Resolution resolution, String country)
         {
             string baseUri = "https://www.bing.com";
             using (var client = new HttpClient())
             {
-                using (var jsonStream = await client.GetStreamAsync("http://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=en-US"))
+                using (var jsonStream = await client.GetStreamAsync("http://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=" + country))
                 {
                     var ser = new DataContractJsonSerializer(typeof(Result));
                     var res = (Result)ser.ReadObject(jsonStream);
-                    using (var imgStream = await client.GetStreamAsync(new Uri(baseUri + res.images[0].URL)))
+                    using (var imgStream = await client.GetStreamAsync(new Uri(baseUri + res.images[0].URLBase + resolution.ToString() + ".jpg")))
                     {
+                        Console.Write(imgStream);
                         return new BingImage(Image.FromStream(imgStream), res.images[0].Copyright, res.images[0].CopyrightLink);
                     }
                 }

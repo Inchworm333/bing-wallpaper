@@ -5,6 +5,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
+using static BingWallpaper.Settings;
 
 namespace BingWallpaper
 {
@@ -13,6 +14,8 @@ namespace BingWallpaper
         private BingImageProvider _provider;
         private Settings _settings;
         private Image _currentWallpaper;
+        private MenuItem set_resolution;
+        private MenuItem set_country;
 
         public MainForm(BingImageProvider provider, Settings settings)
         {
@@ -75,7 +78,7 @@ namespace BingWallpaper
         {
             try
             {
-                var bingImg = await _provider.GetImage();
+                var bingImg = await _provider.GetImage(_settings.ImageResolution, _settings.Country[_settings.ImageCountry]);
 
                 Wallpaper.Set(bingImg.Img, Wallpaper.Style.Stretched);
                 _currentWallpaper = bingImg.Img;
@@ -121,7 +124,44 @@ namespace BingWallpaper
 
             // Separator
             _trayMenu.MenuItems.Add("-");
-        
+
+            //Prefered Resolution Menu
+            MenuItem resolution_menu = new MenuItem("Prefered Resolution");
+            foreach (Resolution resolution in Enum.GetValues(typeof(Resolution)))
+            {
+                var btn = new MenuItem((resolution.ToString()).TrimStart('_'));
+
+                if (_settings.ImageResolution.Equals(resolution))
+                {
+                    btn.Checked = true;
+                    set_resolution = btn;
+                }
+                else btn.Checked = false;
+
+                btn.Click += OnResSet;
+                resolution_menu.MenuItems.Add(btn);
+            }
+            _trayMenu.MenuItems.Add(resolution_menu);
+
+            //Prefered Country Menu
+            MenuItem country_menu = new MenuItem("Prefered Country");
+
+            foreach (String country in _settings.Country.Keys)
+            { 
+                var btn = new MenuItem(country);
+
+                if (_settings.ImageCountry.Equals(country))
+                {
+                    btn.Checked = true;
+                    set_country = btn;
+                }
+                else btn.Checked = false;
+
+                btn.Click += OnCountrySet;
+                country_menu.MenuItems.Add(btn);
+            }
+            _trayMenu.MenuItems.Add(country_menu);
+
             // Force update button
             _trayMenu.MenuItems.Add("Force Update", (s, e) => SetWallpaper());
 
@@ -188,6 +228,24 @@ namespace BingWallpaper
             launch.Checked = !launch.Checked;
             SetStartup(launch.Checked);
             _settings.LaunchOnStartup = launch.Checked;
+        }
+
+        private void OnResSet(object sender, EventArgs e)
+        {
+            var resolution = (MenuItem)sender;
+            set_resolution.Checked = false;
+            resolution.Checked = true;
+            set_resolution = resolution;
+            _settings.ImageResolution = (Resolution) Enum.Parse(typeof(Resolution), ('_' + resolution.Text));
+        }
+
+        private void OnCountrySet(object sender, EventArgs e)
+        {
+            var country = (MenuItem)sender;
+            set_country.Checked = false;
+            country.Checked = true;
+            set_country = country;
+            _settings.ImageCountry = country.Text;
         }
 
         protected override void Dispose(bool isDisposing)

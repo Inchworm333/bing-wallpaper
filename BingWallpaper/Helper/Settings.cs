@@ -14,6 +14,32 @@ namespace BingWallpaper
         private Options _options;
         private string _settingsPath;
 
+        public enum Resolution
+        {
+            _1920x1200,
+            _1920x1080,
+            _1366x768,
+            _1280x768,
+            _1280x720,
+            _1080x1920,
+            _1024x768
+        }
+
+        public Dictionary<string, string> Country = new Dictionary<string, string>()
+        {
+            {"United States", "en-us"},
+            {"United Kingdom", "en-gb"},
+            {"Canada (English)", "en-ca"},
+            {"Canada (French)", "fr-ca"},
+            {"Australia", "en-au"},
+            {"Germany", "de-de"},
+            {"India", "en-in"},
+            {"France", "fr-fr"},
+            {"Japan", "ja-jp"},
+            {"China", "zh-cn"},
+            {"International / Other", "en-ww"}
+        };
+
         public Settings()
         {
             _settingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "settings.txt");
@@ -29,10 +55,12 @@ namespace BingWallpaper
             catch (FileNotFoundException)
             {
                 _options = new Options();
+                Save();
             }
             catch (SerializationException)
             {
                 _options = new Options();
+                Save();
             }
         }
 
@@ -68,6 +96,26 @@ namespace BingWallpaper
             }
         }
 
+        public Resolution ImageResolution
+        {
+            get => (Resolution) Enum.Parse(typeof(Resolution), "_" + _options.ImgResolution); 
+            set
+            {
+                _options.ImgResolution = value.ToString().TrimStart('_');
+                Save();
+            }
+        }
+
+        public string ImageCountry
+        {
+            get { return _options.ImgCountry; }
+            set
+            {
+                _options.ImgCountry = value;
+                Save();
+            }
+        }
+
         #endregion
 
         private void Save()
@@ -88,6 +136,10 @@ namespace BingWallpaper
             public string ImgCopyright = "Bing Wallpaper";
             [DataMember]
             public string ImgCopyrightLink = "https://www.bing.com";
+            [DataMember]
+            public String ImgResolution = "1920x1080";
+            [DataMember]
+            public String ImgCountry = "United States";
         }
     }
 }

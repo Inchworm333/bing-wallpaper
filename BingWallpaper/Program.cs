@@ -8,7 +8,7 @@ namespace BingWallpaper
     {
         [STAThread]
         static void Main()
-        {
+        { 
             Mutex mutex = new Mutex(false, "b1c063de-2104-468e-ab02-4ca06b0c213e");
             // Check if application is already running
             try
@@ -16,7 +16,8 @@ namespace BingWallpaper
                 if (mutex.WaitOne(0, false))
                 {
                     // Run the application
-                    Application.Run(new MainForm(new BingImageProvider(), new Settings()));
+                    MainForm main = new MainForm(new BingImageProvider(), new Settings());
+                    Application.Run(main);
                 }
                 else
                 {
