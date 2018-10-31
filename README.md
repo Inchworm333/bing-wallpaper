@@ -6,7 +6,7 @@
 Keep your wallpaper up to date with Bing's image of the day, every day.
 
 **NEW** Added ability to change default country *and* change default resolution.
-> Some resolutions may not be available for certain wallpapers. When you select a resolution that is not supported by that wallpaper, it changes the wallpaper to the default wallpaper: ![alt text](https://www.10wallpaper.com/wallpaper/1024x768/1308/Beautiful_island-August_2013_Bing_wallpaper_1024x768.jpg "Robert Harding Picture Library 'beachy 13' ")
+> Some resolutions may not be available for certain wallpapers. When you select a resolution that is not supported by that wallpaper, it changes the wallpaper to the default wallpaper: ![alt text](https://www.10wallpaper.com/wallpaper/1024x768/1308/Beautiful_island-August_2013_Bing_wallpaper_1920x1080.jpg "Robert Harding Picture Library 'beachy 13' ")
 
 # Usage
 
