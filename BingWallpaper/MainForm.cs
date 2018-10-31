@@ -237,6 +237,7 @@ namespace BingWallpaper
             resolution.Checked = true;
             set_resolution = resolution;
             _settings.ImageResolution = (Resolution) Enum.Parse(typeof(Resolution), ('_' + resolution.Text));
+            SetWallpaper();
         }
 
         private void OnCountrySet(object sender, EventArgs e)
@@ -246,6 +247,7 @@ namespace BingWallpaper
             country.Checked = true;
             set_country = country;
             _settings.ImageCountry = country.Text;
+            SetWallpaper();
         }
 
         protected override void Dispose(bool isDisposing)
