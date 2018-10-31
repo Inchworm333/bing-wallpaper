@@ -65,4 +65,4 @@ You may also disable startup launch by either of these ways:
 
 This only works on Windows systems.
 
-I've tested it on Windows 7 and Windows 10 as an admin user. If you face any problems please open an issue!
+Tested on Windows 10 as admin user.
